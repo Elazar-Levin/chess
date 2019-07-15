@@ -154,9 +154,9 @@ function bestMoveGreedy()
 }
 function doMinimax()
 {
-	minimaxRoot(3,game,true);
+	minimaxRoot(3,game,true,-10000,10000);
 }
-function minimaxRoot(depth,game,isMax)
+function minimaxRoot(depth,game,isMax,alpha,beta)
 {
 	var possibleMoves = game.moves();
 	var bestMove=-10000;
@@ -164,7 +164,7 @@ function minimaxRoot(depth,game,isMax)
 	for(var i=0;i<possibleMoves.length;i++)
 	{
 		game.move(possibleMoves[i]);
-		var value=minimax(depth-1,game,!isMax);
+		var value=minimax(depth-1,game,!isMax,alpha,beta);
 		
 		game.undo();
 		if(value>bestMove)
@@ -185,7 +185,7 @@ function minimaxRoot(depth,game,isMax)
 	game.move(bestMoves[Math.floor(Math.random() * bestMoves.length)][1]);
 	board.position(game.fen())
 }
-function minimax(depth,game,isMax)
+function minimax(depth,game,isMax,alpha,beta)
 {
 	if(depth==0)
 	{
@@ -199,8 +199,13 @@ function minimax(depth,game,isMax)
 		for(var i=0;i<possibleMoves.length;i++)
 		{
 			game.move(possibleMoves[i]);
-			currMax=Math.max(currMax,minimax(depth-1,game,!isMax));
+			currMax=Math.max(currMax,minimax(depth-1,game,!isMax,alpha,beta));
 			game.undo();
+			alpha=Math.max(alpha,currMax);
+			if(alpha>=beta)
+			{
+				break;
+			}
 		}
 		return currMax;
 	}
@@ -211,8 +216,13 @@ function minimax(depth,game,isMax)
 		for(var i=0;i<possibleMoves.length;i++)
 		{
 			game.move(possibleMoves[i]);
-			currMin=Math.min(currMin,minimax(depth-1,game,!isMax));
+			currMin=Math.min(currMin,minimax(depth-1,game,!isMax,alpha,beta));
 			game.undo();
+			beta=Math.min(beta,currMin);
+			if(alpha>=beta)
+			{
+				break;
+			}
 		}
 		return currMin;
 	}
