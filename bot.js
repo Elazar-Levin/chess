@@ -213,6 +213,19 @@ function minimaxRoot(depth,game,isMax,alpha,beta,pieces=true,pos=true)
 	game.move(bestMoves[Math.floor(Math.random() * bestMoves.length)][1]);
 	board.position(game.fen())
 }
+function Restart()
+{
+	game=Chess();
+	var config = {
+		draggable: true,
+		position: 'start',
+		onDragStart: onDragStart,
+		onDrop: onDrop,
+		onSnapEnd: onSnapEnd
+	}
+	board = Chessboard('board1', config);
+	
+}
 function minimax(depth,game,isMax,alpha,beta,pieces=true,pos=true)
 {
 	if(depth==0)
