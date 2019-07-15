@@ -28,23 +28,7 @@ function flipH(matrix)
 	}
 	return mat2;
 }
-function makeRandomMove () {
-  var possibleMoves = game.moves()
 
-  // game over
-  if (possibleMoves.length === 0) return
-
-  var randomIdx = Math.floor(Math.random() * possibleMoves.length)
-  game.move(possibleMoves[randomIdx])
-  board.position(game.fen())
-}
-function calculateScoreWithPos(fen)
-{
-	var myBoard=fen.split(" ")[0].split("/");
-	var myBoard2=[]
-	
-	
-}
 function makeBoard(fen)
 {
 	var myBoard=fen.split(" ")[0].split("/");
@@ -140,23 +124,7 @@ function calculateScore(fen)
 	}
 	return Score;
 }
-function getScores(fen,depth,currentDepth,scores)
-{
-	
-	var myBoard=new Chess(fen);
-	var possibleMoves = myBoard.moves();
-	if(possibleMoves.length==0 || depth==currentDepth)
-	{
-		scores.push(calculateScore(myBoard.fen()));
-		return scores;
-	}
-	
-	for(var j=0;j<possibleMoves.length;j++)
-	{
-		myBoard.move(possibleMoves[j]);
-		return getScores(myBoard.fen(),depth,currentDepth+1,scores);
-	}
-}  
+
 function bestMoveGreedy()
 {
 
@@ -184,40 +152,73 @@ function bestMoveGreedy()
 	game.move(bestMoves[Math.floor(Math.random() * bestMoves.length)]);
 	board.position(game.fen())
 }
-
-
-
-function minimax(fen,depth,nodeIndex,isMax,scores,h)
+function doMinimax()
 {
-	/*
-	var myBoard=new Chess(fen);
-	var possibleMoves = myBoard.moves()
-	if(depth==h)
+	minimaxRoot(3,game,true);
+}
+function minimaxRoot(depth,game,isMax)
+{
+	var possibleMoves = game.moves();
+	var bestMove=-10000;
+	var bestMoves=[];
+	for(var i=0;i<possibleMoves.length;i++)
 	{
-		return scores[nodeIndex];
+		game.move(possibleMoves[i]);
+		var value=minimax(depth-1,game,!isMax);
+		
+		game.undo();
+		if(value>bestMove)
+		{
+			bestMove=value;
+			bestMoves=[];
+			bestMoves.push([value,possibleMoves[i]]);
+			
+		}
+		else if(value==bestMove)
+		{
+			bestMove=value;
+			bestMoves.push([value,possibleMoves[i]]);
+		}
+	}
+	console.log(bestMoves[0]);
+	
+	game.move(bestMoves[Math.floor(Math.random() * bestMoves.length)][1]);
+	board.position(game.fen())
+}
+function minimax(depth,game,isMax)
+{
+	if(depth==0)
+	{
+		return calculateScore(game.fen());
 	}
 	
-  // game over
-	//if (possibleMoves.length === 0) return
-	   // value 
-    if (isMax) 
-		maxList=array();
-		for(var i =0;i<possibleMoves.length;i++)
+	if(isMax)
+	{
+		var currMax=-10000;
+		var possibleMoves = game.moves();
+		for(var i=0;i<possibleMoves.length;i++)
 		{
-			maxList.push(minimax(depth+1,nodeIndex))
+			game.move(possibleMoves[i]);
+			currMax=Math.max(currMax,minimax(depth-1,game,!isMax));
+			game.undo();
 		}
+		return currMax;
+	}
+	else
+	{
+		var currMin=10000;
+		var possibleMoves = game.moves();
+		for(var i=0;i<possibleMoves.length;i++)
+		{
+			game.move(possibleMoves[i]);
+			currMin=Math.min(currMin,minimax(depth-1,game,!isMax));
+			game.undo();
+		}
+		return currMin;
+	}
 	
 	
 	
-       return max(minimax(depth+1, nodeIndex*2, false, scores, h), 
-            minimax(depth+1, nodeIndex*2 + 1, false, scores, h)); 
-  
-    // Else (If current move is Minimizer), find the minimum 
-    // attainable value 
-    else
-        return min(minimax(depth+1, nodeIndex*2, true, scores, h), 
-            minimax(depth+1, nodeIndex*2 + 1, true, scores, h)); 
-	*/
 }
 
 function onDrop (source, target) {
@@ -232,7 +233,7 @@ function onDrop (source, target) {
   if (move === null) return 'snapback'
 
   // make random legal move for black
-  window.setTimeout(bestMoveGreedy, 250)
+  window.setTimeout(doMinimax, 5000);
 }
 
 // update the board position after the piece snap
