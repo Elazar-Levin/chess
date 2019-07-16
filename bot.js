@@ -184,6 +184,35 @@ function doMinimax4()
 {
 	minimaxRoot(4,game,true,-10000,10000);
 }
+function Quiesce(fen,alpha,beta ) {
+    var stand_pat = calculateScore(fen);
+    if( stand_pat >= beta )
+        return beta;
+    if( alpha < stand_pat )
+        alpha = stand_pat;
+	var myBoard=Chess(fen);
+	var possibleMoves=myBoard.moves();
+	for(var i=0;i<possibleMoves.length;i++)
+	{
+		if(possibleMoves[i].includes("x"))
+		{
+			myBoard.move(possibleMoves[i]);
+			var score=-Quiesce(myBoard.fen(),-beta,-alpha);
+			myBoard.undo();
+			if( score >= beta )
+				return beta;
+			if( score > alpha )
+				alpha = score;
+		}
+	        
+    }
+    return alpha;
+}
+
+
+
+
+
 function minimaxRoot(depth,game,isMax,alpha,beta,pieces=true,pos=true)
 {
 	var possibleMoves = game.moves();
