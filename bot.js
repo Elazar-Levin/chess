@@ -290,13 +290,13 @@ function onDrop (source, target) {
 		window.setTimeout(doRandomMove, 250);
 		break;
 	case 2:
-		window.setTimeout(bestMoveGreedy,250);
-		break;
-	case 3:
 		window.setTimeout(doMinimax,250);
 		break;
-	case 4:
+	case 3:
 		window.setTimeout(doMinimax1,500);
+		break;
+	case 4:
+		window.setTimeout(bestMoveGreedy,250);
 		break;
 	case 5:
 		window.setTimeout(doMinimax2,500);
@@ -316,7 +316,12 @@ function onDrop (source, target) {
 function onSnapEnd () {
   board.position(game.fen())
 }
-
+function Undo()
+{
+	game.undo();
+	game.undo();
+	board.position(game.fen())
+}
 var config = {
   draggable: true,
   position: 'start',
