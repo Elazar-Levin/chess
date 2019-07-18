@@ -1,9 +1,5 @@
 <html>
 <head>
-<!--  Including the chessboardjs files:-->
-    
-
-<!--  Including jQuery, another tool chessboardjs uses:-->
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 	<script src="js/chess.js"></script>
 	<script src="js/chessboard-1.0.0.js"></script>
@@ -11,14 +7,18 @@
   </head>
 <body>
   <div id="board1" style="width: 400px"></div>
+  Level:
+    <select id="level">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3" selected>3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+    </select>
+	<button type="button" id="restart" onclick="Restart()">Restart</button>
+	<button type="button" id="restart" onclick="Undo()">Undo</button>
   </body>
-
-  
-  
-<!--
-  Now including our own custom JS
-  Note that we could write JS directly in between the script tags if you'd 
-  rather, but i didn't want to so i put it in a new file. 
--->
   <script src="bot.js"></script>
 </html>
