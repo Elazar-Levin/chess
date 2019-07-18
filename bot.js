@@ -243,7 +243,7 @@ function onDrop (source, target) {
   if (move === null) return 'snapback'
 
   // make random legal move for black
-  window.setTimeout(doMinimax, 5000);
+  window.setTimeout(doMinimax, 250);
 }
 
 // update the board position after the piece snap
