@@ -34,6 +34,8 @@ function flipH(matrix)
 }
 function doRandomMove()
 {
+	console.log(game.ascii());
+	console.log(Quiesce(game.fen(),-10000,10000));
 	possibleMoves=game.moves();
 	game.move(possibleMoves[Math.floor(Math.random() * possibleMoves.length)]);
 	board.position(game.fen())
