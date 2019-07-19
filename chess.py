@@ -85,6 +85,16 @@ class Chess:
 			flat.append(2)
 		else:
 			flat.append(0)
+		if "k" in myBoard[2]:
+			if "q" in myBoard[2]:
+				flat.append(3)
+			else:
+				flat.append(1)
+		elif "q" in myBoard[2]:
+			flat.append(2)
+		else:
+			flat.append(0)
+		
 		return flat
 chess= Chess("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 print(chess.parseFen(chess.fen,chess.flattenBoard(chess.fen)))
