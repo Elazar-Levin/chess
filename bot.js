@@ -308,11 +308,13 @@ function onDrop (source, target) {
     to: target,
     promotion: 'q' // NOTE: always promote to a queen for example simplicity
   })
-
+ 
   // illegal move
   if (move === null) return 'snapback'
+	
 	level=parseInt($('#level').find(':selected').text());
   // make random legal move for black
+  
   switch(level)
   {
 	case 1:
@@ -336,8 +338,10 @@ function onDrop (source, target) {
 	case 7:
 		window.setTimeout(doMinimax4,500);
 		break;
+	
   }
-  
+  console.log(game.ascii());
+  console.log(Quiesce(game.fen(),-10000,10000));
 }
 
 // update the board position after the piece snap
