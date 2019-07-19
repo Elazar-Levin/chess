@@ -310,12 +310,17 @@ function onDrop (source, target) {
     to: target,
     promotion: 'q' // NOTE: always promote to a queen for example simplicity
   })
-
+ 
   // illegal move
   if (move === null) return 'snapback'
+	
 	level=parseInt($('#level').find(':selected').text());
   // make random legal move for black
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> b1d0451e74615f762b871ccf8c6765042cebef5a
   switch(level)
   {
 	case 1:
@@ -339,8 +344,10 @@ function onDrop (source, target) {
 	case 7:
 		window.setTimeout(doMinimax4,500);
 		break;
+	
   }
-  
+  console.log(game.ascii());
+  console.log(Quiesce(game.fen(),-10000,10000));
 
 }
 
