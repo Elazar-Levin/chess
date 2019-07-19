@@ -15,9 +15,9 @@ class Chess:
 					int(myBoard[i][j])
 					
 					for k in range(int(myBoard[i][j])):
-						hold.append(" ");
+						hold.append(" ")
 				except ValueError:
-					hold.append(myBoard[i][j]);
+					hold.append(myBoard[i][j])
 			myBoard2.append(hold)
 		return myBoard2
 	def toFen(self,board):
@@ -70,6 +70,21 @@ class Chess:
 				if myBoard[i][j]=="K":#white king
 					ans.append(12)
 		return ans
-	
+	def parseFen(self,fen,flat):
+		myBoard=fen.split(" ")
+		if myBoard[1]=="w":
+			flat.append(1)
+		else:
+			flat.append(2)
+		if "K" in myBoard[2]:
+			if "Q" in myBoard[2]:
+				flat.append(3)
+			else:
+				flat.append(1)
+		elif "Q" in myBoard[2]:
+			flat.append(2)
+		else:
+			flat.append(0)
+		return flat
 chess= Chess("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-print(chess.flattenBoard(chess.fen))
+print(chess.parseFen(chess.fen,chess.flattenBoard(chess.fen)))
