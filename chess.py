@@ -4,7 +4,7 @@ class Chess:
 		self.fen=fen
 		self.castle=fen.split(" ")[2]
 		self.player=fen.split(" ")[1]
-		self.moves=fen.split(" ")[5]
+		self.moves=int(fen.split(" ")[5])
 		
 		
 	"""
@@ -15,7 +15,7 @@ class Chess:
 	def toBoard(self,fen):
 		myBoard=fen.split(" ")[0].split("/")
 		self.castle=fen.split(" ")[2]
-		self.moves=fen.split(" ")[5]
+		self.moves=int(fen.split(" ")[len(fen.split(" "))-1])
 		myBoard2=[]
 		for i in range(len(myBoard)):
 			hold=[]
@@ -52,7 +52,7 @@ class Chess:
 		s+=" "
 		s+=self.castle
 		s+=" "
-		s+=self.moves
+		s+=str(self.moves)
 			
 		return s
 	
@@ -114,7 +114,7 @@ class Chess:
 			flat.append(2)
 		else:
 			flat.append(0)
-		
+		flat.append(int(self.moves))
 		return flat
 	
 	def applyMove(self,move,player):
@@ -122,10 +122,6 @@ class Chess:
 		if len(move)==2:
 			p=8-int(move[1])
 			if player=="w":
-				print(myBoard[6][4])
-				print(myBoard[ord(move[0])-ord("a")][p-1])
-				print(myBoard[p-1][ord(move[0])-ord("a")])
-				
 				if myBoard[p+1][ord(move[0])-ord("a")]=="P":
 					myBoard[p+1][ord(move[0])-ord("a")]=" "
 					myBoard[p][ord(move[0])-ord("a")]="P"
@@ -139,22 +135,31 @@ class Chess:
 				elif myBoard[p-2][ord(move[0])-ord("a")]=="p":
 					myBoard[p-2][ord(move[0])-ord("a")]=" "
 					myBoard[p][ord(move[0])-ord("a")]="p"
+				
 			else:
 				return
 
 				
 	
 	
-	
+		if player=="w":
+			self.player="b"
+		elif player=="b":
+			self.player="w"
+			self.moves+=1#increment moves after blacks move
 	
 		self.fen=self.toFen(myBoard)
 	
+	def getInput(self):
+		return self.parseFen(self.fen,self.flattenBoard(self.fen))
+	
 	
 chess= Chess("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
-
+print(chess.getInput())
 #print(chess.parseFen(chess.fen,chess.flattenBoard(chess.fen)))
 print(chess.toBoard(chess.fen))
-#chess.fen="r4r1k/ppR1Q1pp/2b3q1/5p2/7N/1P2P3/P3BPPP/5RK1 b - - 6 20"
+chess.fen="r4r1k/ppR1Q1pp/2b3q1/5p2/7N/1P2P3/P3BPPP/5RK1 b - - 6 20"
+print(chess.getInput())
 #print(chess.toFen(chess.toBoard(chess.fen)))
 print((chess.fen))
 chess.applyMove("e5","b")
