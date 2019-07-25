@@ -18,8 +18,12 @@ var endgame=false;
 var level=3
 function onDragStart (source, piece, position, orientation) {
   // do not pick up pieces if the game is over
-  if (game.game_over()) return false
-
+  if (game.game_over()) 
+  {
+	$("#state").text("Game Over");
+	return false
+  
+  }
   // only pick up pieces for White
   if (piece.search(/^b/) !== -1) return false
 }
@@ -314,7 +318,19 @@ function onDrop (source, target) {
 	
 	level=parseInt($('#level').find(':selected').text());
   // make random legal move for black
-  
+	if(game.game_over())
+	{
+		$("#state").text("Game Over");
+	}
+	if(game.in_check())
+	{
+		$("#state").text("check");
+	}
+	else
+	{
+		$("#state").text("");
+	}
+
   switch(level)
   {
 	case 1:
@@ -340,6 +356,18 @@ function onDrop (source, target) {
 		break;
 	
   }
+  if(game.game_over())
+	{
+		$("#state").text("Game Over");
+	}
+	if(game.in_check())
+	{
+		$("#state").text("check");
+	}
+	else
+	{
+		$("#state").text("");
+	}
   console.log(game.ascii());
   console.log(Quiesce(game.fen(),-10000,10000));
 }

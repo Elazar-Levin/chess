@@ -4,6 +4,8 @@ class Chess:
 		self.fen=fen
 		self.castle=fen.split(" ")[2]
 		self.player=fen.split(" ")[1]
+		self.moves=fen.split(" ")[5]
+		
 		
 	"""
 	"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
@@ -13,6 +15,7 @@ class Chess:
 	def toBoard(self,fen):
 		myBoard=fen.split(" ")[0].split("/")
 		self.castle=fen.split(" ")[2]
+		self.moves=fen.split(" ")[5]
 		myBoard2=[]
 		for i in range(len(myBoard)):
 			hold=[]
@@ -48,6 +51,8 @@ class Chess:
 		s+=self.player
 		s+=" "
 		s+=self.castle
+		s+=" "
+		s+=self.moves
 			
 		return s
 	
@@ -134,7 +139,8 @@ class Chess:
 				elif myBoard[p-2][ord(move[0])-ord("a")]=="p":
 					myBoard[p-2][ord(move[0])-ord("a")]=" "
 					myBoard[p][ord(move[0])-ord("a")]="p"
-			
+			else:
+				return
 
 				
 	
