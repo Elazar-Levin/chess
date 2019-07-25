@@ -117,10 +117,6 @@ class Chess:
 		if len(move)==2:
 			p=8-int(move[1])
 			if player=="w":
-				print(myBoard[6][4])
-				print(myBoard[ord(move[0])-ord("a")][p-1])
-				print(myBoard[p-1][ord(move[0])-ord("a")])
-				
 				if myBoard[p+1][ord(move[0])-ord("a")]=="P":
 					myBoard[p+1][ord(move[0])-ord("a")]=" "
 					myBoard[p][ord(move[0])-ord("a")]="P"
@@ -134,7 +130,27 @@ class Chess:
 				elif myBoard[p-2][ord(move[0])-ord("a")]=="p":
 					myBoard[p-2][ord(move[0])-ord("a")]=" "
 					myBoard[p][ord(move[0])-ord("a")]="p"
-			
+		elif len(move)==3:
+			if move=="O-O":
+				if player=="w":	
+					myBoard[7][4]=" "
+					myBoard[7][6]="K"
+					myBoard[7][7]=" "
+					myBoard[7][5]="R"												
+				elif player=="b":
+					myBoard[0][4]=" "
+					myBoard[0][6]="k"
+					myBoard[0][7]=" "
+					myBoard[0][5]="r"	
+			elif move=="O-O-O":
+				return
+			else:
+				pieces=[]
+				for i in range(8):
+					for j in  range(8):
+						if myBoard[i][j]==move[0]:
+							pieces.append((i,j))
+					
 
 				
 	
@@ -151,7 +167,6 @@ print(chess.toBoard(chess.fen))
 #chess.fen="r4r1k/ppR1Q1pp/2b3q1/5p2/7N/1P2P3/P3BPPP/5RK1 b - - 6 20"
 #print(chess.toFen(chess.toBoard(chess.fen)))
 print((chess.fen))
-chess.applyMove("e5","b")
+chess.applyMove("O-O","w")
 print((chess.fen))
-chess.applyMove("e4","w")
-print((chess.fen))
+
