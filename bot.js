@@ -316,11 +316,7 @@ function onDrop (source, target) {
 	
 	level=parseInt($('#level').find(':selected').text());
   // make random legal move for black
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> b1d0451e74615f762b871ccf8c6765042cebef5a
   switch(level)
   {
 	case 1:

@@ -111,7 +111,25 @@ class Chess:
 			flat.append(0)
 		
 		return flat
-	
+	def canMove(type,piece,pos):
+		if type=="N" or type=="n":
+			
+		elif type=="B" or type=="b":
+			if pos[0]-piece[0] == pos[1]-piece[1]:
+			
+			else:
+				return False
+		elif type=="R" or type=="r":
+			if pos[0]==piece[0] or pos[1]==piece[1]
+			
+			else:
+				return False
+		elif type=="Q" or type=="q":
+			if pos[0]==piece[0] or pos[1]==piece[1] or pos[0]-piece[0] == pos[1]-piece[1]:
+			
+			else:
+				return False
+			
 	def applyMove(self,move,player):
 		myBoard=self.toBoard(self.fen)
 		if len(move)==2:
@@ -143,14 +161,23 @@ class Chess:
 					myBoard[0][7]=" "
 					myBoard[0][5]="r"	
 			elif move=="O-O-O":
-				return
+				if player=="w":	
+					myBoard[7][4]=" "
+					myBoard[7][2]="K"
+					myBoard[7][0]=" "
+					myBoard[7][3]="R"												
+				elif player=="b":
+					myBoard[0][4]=" "
+					myBoard[0][2]="k"
+					myBoard[0][0]=" "
+					myBoard[0][3]="r"	
 			else:
 				pieces=[]
 				for i in range(8):
 					for j in  range(8):
 						if myBoard[i][j]==move[0]:
 							pieces.append((i,j))
-					
+							
 
 				
 	
@@ -167,6 +194,6 @@ print(chess.toBoard(chess.fen))
 #chess.fen="r4r1k/ppR1Q1pp/2b3q1/5p2/7N/1P2P3/P3BPPP/5RK1 b - - 6 20"
 #print(chess.toFen(chess.toBoard(chess.fen)))
 print((chess.fen))
-chess.applyMove("O-O","w")
+chess.applyMove("Nc3","w")
 print((chess.fen))
 
