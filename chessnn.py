@@ -136,9 +136,16 @@ print()
 """
 print(np.shape(x_train))
 print(np.shape(y_train))
-model=keras.Sequential([keras.layers.InputLayer(68),])
-
-
+#model=keras.Sequential([keras.layers.InputLayer(68),])
+nnInputs=tf.keras.Input(shape=(68))
+hidden=tf.keras.layers.Dense(200,activation=tf.nn.relu)(nnInputs)
+outputs=tf.keras.layers.Dense(4,activation=tf.nn.softmax)(hidden)
+model=tf.keras.Model(inputs=nnInputs,outputs=outputs)
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
+model.fit([x_train],y_train,epochs=5)
+print(model.to_jason())
 
 
 
