@@ -1,4 +1,6 @@
 import chess
+import chess.pgn
+import tensorflow as tf
 def toBoard(fen):
 		myBoard=fen.split(" ")[0].split("/")
 		moves=int(fen.split(" ")[len(fen.split(" "))-1])
@@ -16,7 +18,7 @@ def toBoard(fen):
 			myBoard2.append(hold)
 		return myBoard2
 
-def flattenBoard(fen):# todo: parse the rest of the fen string
+def flattenBoard(fen):
 		ans=[]
 		myBoard=toBoard(fen)
 		for i in range(8):
@@ -48,7 +50,7 @@ def flattenBoard(fen):# todo: parse the rest of the fen string
 				if myBoard[i][j]=="K":#white king
 					ans.append(12)
 		return ans
-def parseFen(fen,flat):
+def parseFen(fen,flat,board):
 		myBoard=fen.split(" ")
 		if myBoard[1]=="w":
 			flat.append(1)
@@ -72,11 +74,68 @@ def parseFen(fen,flat):
 			flat.append(2)
 		else:
 			flat.append(0)
-		flat.append(int(self.moves))
+		"""
+		uncomment to learn from en passant
+		if myBoard[3]!="-":
+			myArr=moveToArr(board,myBoard[3])
+			for i in range(4):
+				flat.append(myArr[i])
+		else:
+			for i in range(4):
+				flat.append(0)
+		"""
+		flat.append(int(myBoard[5]))
 		return flat
+
+def getInput(fen,board):
+		return parseFen(fen,flattenBoard(fen),board)
 		
+def moveToArr(move):
+	san=str(move)
+	r1,c1,r2,c2=8-int(san[1]),ord(san[0])-ord("a"),8-int(san[3]),ord(san[2])-ord("a")
+	return [r1,c1,r2,c2]
+	
+def arrToMove(arr):
+	move=""
+	move+=chr(arr[1]+ord("a"))+str(8-arr[0])+chr(arr[3]+ord("a"))+str(8-arr[2])
+	return move
+		
+	
+"""	
 board=chess.Board()
 board.push(board.parse_san("e4"))
 print(board)
 print(board.fen())
+print(moveToArr(board,"e5"))
+print(getInput(board.fen(),board))
+"""
+pgn=open("moves.pgn")
+while chess.pgn.read_game(pgn):
+	first_game=chess.pgn.read_game(pgn)
+	board=first_game.board()
+	inputs=getInput(board.fen(),board)
+	for move in first_game.mainline_moves():
+		print(move)
+		board.push(move)
+		inputs=getInput(board.fen(),board)
+		outputs=moveToArr(move)
+		print(inputs)
+		print(outputs)
+		print(arrToMove(outputs))
+		print()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
