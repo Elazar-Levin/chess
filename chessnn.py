@@ -1,6 +1,9 @@
 import chess
 import chess.pgn
 import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+from tensorflow import keras
 def toBoard(fen):
 		myBoard=fen.split(" ")[0].split("/")
 		moves=int(fen.split(" ")[len(fen.split(" "))-1])
@@ -91,9 +94,11 @@ def getInput(fen,board):
 		return parseFen(fen,flattenBoard(fen),board)
 		
 def moveToArr(move):
+	 
 	san=str(move)
-	r1,c1,r2,c2=8-int(san[1]),ord(san[0])-ord("a"),8-int(san[3]),ord(san[2])-ord("a")
-	return [r1,c1,r2,c2]
+	if not "x" in san: 
+		r1,c1,r2,c2=8-int(san[1]),ord(san[0])-ord("a"),8-int(san[3]),ord(san[2])-ord("a")
+		return [r1,c1,r2,c2]
 	
 def arrToMove(arr):
 	move=""
@@ -110,25 +115,28 @@ print(moveToArr(board,"e5"))
 print(getInput(board.fen(),board))
 """
 pgn=open("moves.pgn")
+x_train=[]
+y_train=[]
+
 while chess.pgn.read_game(pgn):
 	first_game=chess.pgn.read_game(pgn)
 	board=first_game.board()
 	inputs=getInput(board.fen(),board)
 	for move in first_game.mainline_moves():
-		print(move)
 		board.push(move)
 		inputs=getInput(board.fen(),board)
 		outputs=moveToArr(move)
-		print(inputs)
-		print(outputs)
-		print(arrToMove(outputs))
-		print()
-
-
-
-
-
-
+		x_train.append(inputs)
+		y_train.append(outputs)
+	"""	
+print(inputs)
+print(outputs)
+print(arrToMove(outputs))
+print()
+"""
+print(np.shape(x_train))
+print(np.shape(y_train))
+model=keras.Sequential([keras.layers.InputLayer(68),])
 
 
 

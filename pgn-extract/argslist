@@ -1,2 +1,2 @@
--o /files1a/1504371/chess/moves.pgn -C /files1a/1504371/chess/ficsgamesdb_201707_chess_nomovetimes_83037.pgn --notags --selectonly 1:10000 --nomovenumbers
+-o /files1a/1504371/chess/moves.pgn -C /files1a/1504371/ficsgamesdb_201707_chess_nomovetimes_83037.pgn --notags --selectonly 1:10000 --nomovenumbers
 
