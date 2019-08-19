@@ -137,13 +137,12 @@ print()
 x_train=np.array(x_train)
 y_train=np.array(y_train)
 print(np.shape(x_train))
-print(np.shape(x_train[0]))
 print(np.shape(y_train))
 
 #model=keras.Sequential([keras.layers.InputLayer(68),])
 nnInputs=tf.keras.Input(shape=(68,))
 hidden=tf.keras.layers.Dense(200,activation=tf.nn.relu)(nnInputs)
-outputs=tf.keras.layers.Dense(4,activation=tf.nn.softmax)(hidden)
+outputs=tf.keras.layers.Dense(1,activation=tf.nn.softmax)(hidden)
 model=tf.keras.Model(inputs=nnInputs,outputs=outputs)
 model.compile(optimizer='adam',
               loss='sparse_categorical_crossentropy',
